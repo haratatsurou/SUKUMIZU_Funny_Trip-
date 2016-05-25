@@ -7,10 +7,15 @@ public class Moving : MonoBehaviour
     public float jumpPower = 2.8f; //ジャンプ力
     bool isGrounded = false; //地面に接触しているのか判定
 
+    public Sprite jumpimage,walkimage;
+
+    private Rigidbody2D playerrigidbody;
+    private SpriteRenderer playerrenderer;
 
     void Start()
     {
-
+        playerrigidbody = GetComponent<Rigidbody2D>( );
+        playerrenderer = GetComponent<SpriteRenderer>( );
     }
 
 
@@ -26,8 +31,10 @@ public class Moving : MonoBehaviour
         //空中でジャンプできないように制限
         if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower * 1000f));
+            playerrigidbody.AddForce(new Vector2(0f, jumpPower * 1000f));
             isGrounded = true;
+            //ジャンプ時時にジャンプの画像差し替え
+            playerrenderer.sprite = jumpimage;
         }
     }
 
@@ -36,5 +43,6 @@ public class Moving : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         isGrounded = false;
+        playerrenderer.sprite = walkimage;
     }
 }
