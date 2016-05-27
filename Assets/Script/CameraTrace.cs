@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class CameraTrace : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class CameraTrace : MonoBehaviour
     
     void Update()
     {
-        Vector3 nowPos = transform.position; //カメラの位置情報を毎回取り出す
-        Vector3 pastPos = new Vector3(transform.position.x, cameraY, cameraZ);
-
-        nowPos = new Vector3(player.transform.position.x, cameraY, cameraZ); //x軸だけプレイヤーと同じ移動量。y軸とz軸はお好みで
-        //transform.position = nowPos; //カメラとプレイヤーの移動量を同期
-        transform.position = Vector3.Lerp(pastPos, nowPos, Time.deltaTime);
+        //プレイヤーがデストロイされているならばカメラは動かさない
+        if(player != null)
+        {
+            Vector3 nowPos = transform.position; //カメラの位置情報を毎回取り出す
+            Vector3 pastPos = new Vector3(transform.position.x, cameraY, cameraZ);
+            nowPos = new Vector3(player.transform.position.x, cameraY, cameraZ); //x軸だけプレイヤーと同じ移動量。y軸とz軸はお好みで                                                                  //transform.position = nowPos; //カメラとプレイヤーの移動量を同期
+            transform.position = Vector3.Lerp(pastPos, nowPos, Time.deltaTime);
+        }
     }
 }
