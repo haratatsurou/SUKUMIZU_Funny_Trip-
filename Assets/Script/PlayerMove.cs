@@ -10,12 +10,15 @@ public class PlayerMove : MonoBehaviour
     public Sprite jumpimage,walkimage;
 
     private Rigidbody2D playerrigidbody;
-    private SpriteRenderer playerrenderer;
+    private Animator anime;
+    private SpriteRenderer render;
 
     void Start()
     {
         playerrigidbody = GetComponent<Rigidbody2D>( );
-        playerrenderer = GetComponent<SpriteRenderer>( );
+        anime = GetComponent<Animator>( );
+        anime.enabled = false;
+        render = GetComponent<SpriteRenderer>( );
     }
 
 
@@ -25,17 +28,28 @@ public class PlayerMove : MonoBehaviour
         //ライトキーで右に移動
         if ( Input.GetKey(KeyCode.RightArrow) ) {
             transform.Translate(new Vector2(moveValue * Time.deltaTime , 0f)); //プレイヤーを右に
+            if ( isGrounded ) {
+                anime.enabled = true;
+            }
         }
         //レフトキーで左に移動
         else if ( Input.GetKey(KeyCode.LeftArrow) ) {
             transform.Translate(new Vector2(-moveValue * Time.deltaTime , 0f)); //プレイヤーを左に
+
+            if ( isGrounded ) {
+                anime.enabled = true;
+            }
         }
         //空中でジャンプできないように制限
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             isGrounded = false;
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower * 1000f)); //上にジャンプ
-            playerrenderer.sprite = jumpimage;
+            render.sprite = jumpimage;
+            anime.enabled = false;
+        }
+        if( Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) ) {
+            anime.enabled=false;
         }
     }
 
@@ -44,7 +58,7 @@ public class PlayerMove : MonoBehaviour
     void OnCollisionStay2D(Collision2D coll)
     {
         isGrounded = true;
-        playerrenderer.sprite = walkimage;
+        render.sprite = walkimage;
     }
 }
 //>>>>>>> master

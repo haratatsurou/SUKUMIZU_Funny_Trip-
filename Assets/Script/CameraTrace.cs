@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CameraTrace : MonoBehaviour
 {
-    public float cameraY = 13f; //カメラのy軸(画面の上下を調整)
-    public float cameraZ = -50f; //カメラのz軸(画面の前後を調整)
+    //public float cameraY = 13f; //カメラのy軸(画面の上下を調整)
+    //public float cameraZ = -50f; //カメラのz軸(画面の前後を調整)
     private GameObject player;
 
     Vector3 offset;
