@@ -21,13 +21,15 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+       
         //ライトキーで右に移動
-        if (Input.GetKey(KeyCode.RightArrow))
-            transform.Translate(new Vector2(moveValue * Time.deltaTime, 0f)); //プレイヤーを右に
+        if ( Input.GetKey(KeyCode.RightArrow) ) {
+            transform.Translate(new Vector2(moveValue * Time.deltaTime , 0f)); //プレイヤーを右に
+        }
         //レフトキーで左に移動
-        else if (Input.GetKey(KeyCode.LeftArrow))
-            transform.Translate(new Vector2(-moveValue * Time.deltaTime, 0f)); //プレイヤーを左に
-
+        else if ( Input.GetKey(KeyCode.LeftArrow) ) {
+            transform.Translate(new Vector2(-moveValue * Time.deltaTime , 0f)); //プレイヤーを左に
+        }
         //空中でジャンプできないように制限
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
