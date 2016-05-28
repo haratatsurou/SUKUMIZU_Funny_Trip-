@@ -27,7 +27,6 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-<<<<<<< HEAD
        
         //ライトキーで右に移動
         if ( Input.GetKey(KeyCode.RightArrow) ) {
@@ -45,7 +44,6 @@ public class PlayerMove : MonoBehaviour
             }
         }
         //空中でジャンプできないように制限
-=======
         Vector2 pastPos = transform.position;
         //ライトキーで右に移動
         if (Input.GetKey(KeyCode.RightArrow))
@@ -66,21 +64,17 @@ public class PlayerMove : MonoBehaviour
             //GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
             //空中でジャンプできないように制限
->>>>>>> 9e26222bb47cfadd961e76debe76c8a683545a28
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             isGrounded = false;
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower * 1000f)); //上にジャンプ
-<<<<<<< HEAD
             render.sprite = jumpimage;
             anime.enabled = false;
         }
         if( Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) ) {
             anime.enabled=false;
-=======
             //GetComponent<Rigidbody2D>().velocity = new Vector2(0f, jumpPower * 20f);
-            playerrenderer.sprite = jumpimage;
->>>>>>> 9e26222bb47cfadd961e76debe76c8a683545a28
+            render.sprite = jumpimage;
         }
 
         //ロックバスター
