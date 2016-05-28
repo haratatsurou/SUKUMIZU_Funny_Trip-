@@ -7,7 +7,9 @@ public class EnemyCtrl : MonoBehaviour
     public GameObject patapata;
     private Vector3 kuribouStartPos;
     public float kuribouSpeed = 5f;
-    private Vector2 loopX = Vector2.zero;
+    public float kuribouMoveRange = 20f;
+    private float moveValue;
+    private bool isMoveX;
 
 
     void Start()
@@ -18,11 +20,21 @@ public class EnemyCtrl : MonoBehaviour
 
     void Update()
     {
-        loopX.x = loopX.x + Time.deltaTime * kuribouSpeed;
-        if (kuribou.transform.position.x <= 40f)
-            kuribouSpeed = -5f;
-        else if (-40f <= loopX.x)
-            kuribouSpeed = 5f;
-
+        if (kuribou != null)
+        {
+            if (isMoveX)
+            {
+                moveValue += Time.deltaTime * kuribouSpeed;
+                if (moveValue >= kuribouStartPos.x + kuribouMoveRange)
+                    isMoveX = false;
+            }
+            else
+            {
+                moveValue -= Time.deltaTime * kuribouSpeed;
+                if (moveValue <= kuribouStartPos.x  + kuribouMoveRange * -1f)
+                    isMoveX = true;
+            }
+            kuribou.transform.position = new Vector2(kuribouStartPos.x + moveValue, kuribouStartPos.y);
+        }
     }
 }
