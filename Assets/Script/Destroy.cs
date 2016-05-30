@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class Destory : MonoBehaviour
+public class Destroy : MonoBehaviour
 {
 
 
@@ -17,11 +18,12 @@ public class Destory : MonoBehaviour
     }
 
 
-    void OnTriggerEnter2D(Collider2D coll)
+    public void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Player")
         {
             Destroy(coll.gameObject);
+            SceneManager.LoadScene("stage01");
         }
     }
 }
