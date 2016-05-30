@@ -4,7 +4,6 @@ using System.Collections;
 public class RockBuster : MonoBehaviour
 {
 
-
 	
 	void Start () {
         if(PlayerMove.witchWay == 1)
@@ -30,7 +29,7 @@ public class RockBuster : MonoBehaviour
         else if (coll.gameObject.tag == "Ground")
         {
             Destroy(gameObject); //ロックバスターを削除
-            PlayerMove.countRockBuster--; //削除した分、発射制限を緩和
+            Shot.countRockBuster--; //削除した分、発射制限を緩和
         }
     }
 }
