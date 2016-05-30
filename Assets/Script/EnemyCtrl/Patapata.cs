@@ -9,13 +9,10 @@ public class Patapata : MonoBehaviour
     private float moveValue; //移動量を入れておく箱
     private bool isWayX = false; //falseだと下に、trueだと上に動く
 
-    private Destroy destory;
-
 
     void Start()
     {
         startPos = transform.position;
-        destory = GameObject.FindObjectOfType<Destroy>();
     }
 
 
@@ -41,8 +38,4 @@ public class Patapata : MonoBehaviour
         transform.position = new Vector2(startPos.x, startPos.y + moveValue); //x軸は固定。y軸を毎回更新して移動させる
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        destory.OnTriggerEnter2D(coll);
-    }
 }

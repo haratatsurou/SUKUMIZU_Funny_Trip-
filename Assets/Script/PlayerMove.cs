@@ -1,23 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class PlayerMove : MonoBehaviour
 {
     public float moveValue = 15f; //移動量
     public float jumpPower = 3f; //ジャンプ力
     private bool isGrounded = false; //地面に接触しているのか判定
-    static public int witchWay = 1; //向いている方向。左が0, 右が1
 
     public Sprite jumpimage,walkimage;
 
-    private Rigidbody2D playerrigidbody;
     private Animator anime;
     private SpriteRenderer render;
-    //public LayerMask groundLayer;
 
     void Start()
     {
-        playerrigidbody = GetComponent<Rigidbody2D>( );
         anime = GetComponent<Animator>( );
         anime.enabled = false;
         render = GetComponent<SpriteRenderer>( );
@@ -30,7 +27,6 @@ public class PlayerMove : MonoBehaviour
         //ライトキーで右に移動
         if ( Input.GetKey(KeyCode.RightArrow) ) {
             transform.Translate(new Vector2(moveValue * Time.deltaTime , 0f)); //プレイヤーを右に
-            witchWay = 1;
             if ( isGrounded ) {
                 anime.enabled = true;
             }
@@ -38,28 +34,20 @@ public class PlayerMove : MonoBehaviour
         //レフトキーで左に移動
         else if ( Input.GetKey(KeyCode.LeftArrow) ) {
             transform.Translate(new Vector2(-moveValue * Time.deltaTime , 0f)); //プレイヤーを左に
-            witchWay = 1;
             if ( isGrounded ) {
                 anime.enabled = true;
             }
         }
-        //空中でジャンプできないように制限
-        Vector2 pastPos = transform.position;
-
-            //空中でジャンプできないように制限
-        //isGrounded = Physics2D.Linecast (transform.position, transform.position - transform.up * 0.05f, groundLayer);
 
         //ライトキーで右に移動
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.Translate(new Vector2(moveValue * Time.deltaTime, 0f)); //プレイヤーを右に
-            witchWay = 1;
         }
         //レフトキーで左に移動
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Translate(new Vector2(-moveValue * Time.deltaTime, 0f)); //プレイヤーを左に
-            witchWay = 0;
         }
 
         
@@ -67,7 +55,7 @@ public class PlayerMove : MonoBehaviour
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             isGrounded = false;
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower*1000f)); //上にジャンプ
+             GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower*1000f)); //上にジャンプ
             render.sprite = jumpimage;
 
             anime.enabled = false;
@@ -85,19 +73,28 @@ public class PlayerMove : MonoBehaviour
     //なにかに接触したらもう一度ジャンプできるようにする
     void OnTriggerStay2D(Collider2D col) {
         if ( col.tag == "goal" ) {
-
+            GameObject.Find("UI").GetComponent<Canvas>( ).enabled = true;
+            GameObject.Find("UI/Text").GetComponent<Text>( ).enabled = true;
+            GameObject.Find("UI/Text").GetComponent<Text>( ).text = "クリアー";
+            Invoke("restart" , 3f);
+            var player = GameObject.Find("Player");
+            player.GetComponent<PlayerMove>( ).enabled = false;
+            player.GetComponent<Shot>( ).enabled = false;
+            player.GetComponent<Animator>( ).enabled = false;
+        }
+        if ( col.tag == "death" ) {
+            restart( );
         }
         if ( col.tag == "Ground" || col.tag == "Object" ) {
             isGrounded = true;
             render.sprite = walkimage;
         }
-    }
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        if (coll.gameObject.tag != "Attack")
-        {
-            isGrounded = true;
-            render.sprite = walkimage;
+        if ( col.tag == "Enemy" ) {
+            restart( );
         }
+        
+    }
+    void restart() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

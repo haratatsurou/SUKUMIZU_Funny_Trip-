@@ -9,13 +9,12 @@ public class Kuribou : MonoBehaviour
     private float moveValue; //移動量を入れておく箱
     private bool isWayX = false; //falseだと左に、trueだと右に動く
 
-    private Destroy destory;
 
 
     void Start()
     {
         startPos = transform.position;
-        destory = GameObject.FindObjectOfType<Destroy>();
+   
     }
 
 
@@ -39,10 +38,5 @@ public class Kuribou : MonoBehaviour
         }
 
         transform.position = new Vector2(startPos.x + moveValue, startPos.y); //y軸は固定。x軸を毎回更新して移動させる
-    }
-
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        destory.OnTriggerEnter2D(coll);
     }
 }
