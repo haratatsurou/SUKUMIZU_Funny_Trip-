@@ -16,27 +16,16 @@ public class CameraTrace : MonoBehaviour
         offset = transform.position - player.transform.position;
     }
 
-    
+
     void Update()
     {
-     //   Vector3 nowPos = transform.position; //カメラの位置情報を毎回取り出す
-     //   Vector3 pastPos = new Vector3(transform.position.x, cameraY, cameraZ);
-
-     ////   transform.position = new Vector3(player.transform.position.x, cameraY, cameraZ); //x軸だけプレイヤーと同じ移動量。y軸とz軸はお好みで
-     //   //transform.position = nowPos; //カメラとプレイヤーの移動量を同期
-     //   // = Vector3.Lerp(pastPos, nowPos, Time.deltaTime);
-
-        Vector3 targetCamPos = player.transform.position + offset;
-        transform.position = Vector3.Lerp(transform.position,
-            new Vector3(targetCamPos.x,transform.position.y,transform.position.z) , 
-            10 * Time.deltaTime);
         //プレイヤーがデストロイされているならばカメラは動かさない
-        //if (player != null)
-        //    nowPos = new Vector3(player.transform.position.x, cameraY, cameraZ); //x軸だけプレイヤーと同じ移動量。y軸とz軸はお好みで 
+        if (player != null)
+        {
+            Vector3 targetCamPos = player.transform.position + offset;
+            transform.position = Vector3.Lerp(transform.position,
+                new Vector3(targetCamPos.x, transform.position.y, transform.position.z),
+                10 * Time.deltaTime);
+        }
     }
-
-    //void LateUpdate()
-    //{
-    //    transform.position = nowPos; //カメラとプレイヤーの移動量を同期
-    //}
 }
