@@ -28,7 +28,7 @@ public class CameraTrace : MonoBehaviour
 
         Vector3 targetCamPos = player.transform.position + offset;
         transform.position = Vector3.Lerp(transform.position,
-            new Vector3(targetCamPos.x,transform.position.y,transform.position.z) , 
+            new Vector3( targetCamPos.x,transform.position.y,transform.position.z) , 
             10 * Time.deltaTime);
         //プレイヤーがデストロイされているならばカメラは動かさない
         //if (player != null)

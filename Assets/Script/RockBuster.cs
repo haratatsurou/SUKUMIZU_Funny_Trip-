@@ -27,7 +27,7 @@ public class RockBuster : MonoBehaviour
             coll.GetComponent<BoxCollider2D>().enabled = false;
         }
         //フィールドオブジェクトに当たったらロックバスターを削除
-        else if (coll.gameObject.tag == "Field")
+        else if (coll.gameObject.tag == "Ground")
         {
             Destroy(gameObject); //ロックバスターを削除
             PlayerMove.countRockBuster--; //削除した分、発射制限を緩和

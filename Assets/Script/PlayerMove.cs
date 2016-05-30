@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
     public float moveValue = 15f; //移動量
@@ -31,6 +31,7 @@ public class PlayerMove : MonoBehaviour
         //ライトキーで右に移動
         if ( Input.GetKey(KeyCode.RightArrow) ) {
             transform.Translate(new Vector2(moveValue * Time.deltaTime , 0f)); //プレイヤーを右に
+            witchWay = 1;
             if ( isGrounded ) {
                 anime.enabled = true;
             }
@@ -38,43 +39,30 @@ public class PlayerMove : MonoBehaviour
         //レフトキーで左に移動
         else if ( Input.GetKey(KeyCode.LeftArrow) ) {
             transform.Translate(new Vector2(-moveValue * Time.deltaTime , 0f)); //プレイヤーを左に
-
+            witchWay = 1;
             if ( isGrounded ) {
                 anime.enabled = true;
             }
         }
         //空中でジャンプできないように制限
         Vector2 pastPos = transform.position;
-        //ライトキーで右に移動
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Translate(new Vector2(moveValue * Time.deltaTime, 0f)); //プレイヤーを右に
-            witchWay = 1;
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(moveValue, 0f));
-        }
-        //レフトキーで左に移動
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(new Vector2(-moveValue * Time.deltaTime, 0f)); //プレイヤーを左に
-            witchWay = 0;
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(-moveValue, 0f));
-        }
-
-        //if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
-            //GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
             //空中でジャンプできないように制限
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             isGrounded = false;
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower * 1000f)); //上にジャンプ
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpPower*1000f)); //上にジャンプ
             render.sprite = jumpimage;
+
             anime.enabled = false;
         }
         if( Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) ) {
             anime.enabled=false;
             //GetComponent<Rigidbody2D>().velocity = new Vector2(0f, jumpPower * 20f);
-            render.sprite = jumpimage;
+            if ( isGrounded ) {
+                render.sprite = walkimage;
+            }
+           
         }
 
         //ロックバスター
@@ -96,13 +84,14 @@ public class PlayerMove : MonoBehaviour
 
         }
     }
-
-
     //なにかに接触したらもう一度ジャンプできるようにする
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        isGrounded = true;
-        render.sprite = walkimage;
+    void OnTriggerStay2D(Collider2D col) {
+        if ( col.tag == "goal" ) {
+
+        }
+        if ( col.tag == "Ground" || col.tag == "Object" ) {
+            isGrounded = true;
+            render.sprite = walkimage;
+        }
     }
 }
-//>>>>>>> master
