@@ -20,6 +20,7 @@ public class RockBuster : MonoBehaviour
         //敵にあったったら削除する
         if (coll.gameObject.tag == "Enemy")
         {
+            Destroy(gameObject);
             Destroy(coll.gameObject);
         }
         //フィールドオブジェクトに当たったらロックバスターを削除
