@@ -18,7 +18,7 @@ public class enemy : MonoBehaviour {
     void Update() {
         var pingpong = Mathf.PingPong(Time.time*speed ,moveRange);
         if ( enemymode == EnemyMode.Kuribo ) {
-            transform.position = new Vector2(startPos.x +  pingpong, startPos.y); 
+            transform.position = new Vector2(startPos.x -  pingpong, transform.position.y); 
         }
         if ( enemymode == EnemyMode.PataPata ) {
             transform.position = new Vector2(startPos.x , startPos.y + pingpong); 
