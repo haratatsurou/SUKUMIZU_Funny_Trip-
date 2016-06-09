@@ -11,12 +11,14 @@ public class CameraTrace : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player"); //プレイヤーを取得
+        //自分から見た相手の位置
         offset = transform.position - player.transform.position;
     }
 
 
     void Update()
     {
+        //playerの位置情報を監視
         Vector3 targetCamPos = player.transform.position + offset;
         if ( transform.position.x < targetCamPos.x ) {
             transform.position = Vector3.Lerp(transform.position ,
